@@ -1,0 +1,22 @@
+-- Apache Kafka
+
+https://hub.docker.com/r/apache/kafka
+
+https://kafka.apache.org/43/
+
+
+
+---------------------------------------------------------------------------------------
+Docker:
+
+docker run -d -p 9092:9092 --name broker apache/kafka:latest
+---------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------
+- Apache Kafka es una plataforma de eventos de flujos
+- Se usa para:
+	- procesar flujos (a gran escala)
+	- integrar data
+	- pub/sus mensajes
