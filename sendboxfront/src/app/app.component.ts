@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { PublisherComponent } from './components/publisher/publisher.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [PublisherComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'sendboxfront';
+  title = 'sendbox';
 }

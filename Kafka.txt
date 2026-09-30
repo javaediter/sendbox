@@ -19,4 +19,4 @@ docker run -d -p 9092:9092 --name broker apache/kafka:latest
 - Se usa para:
 	- procesar flujos (a gran escala)
 	- integrar data
-	- pub/sus mensajes
+	- pub/sub mensajes
