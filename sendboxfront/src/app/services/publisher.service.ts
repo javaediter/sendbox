@@ -1,18 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Letter } from '../../models/Letter';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PublisherService {
 
+  apiBase: string = 'http://localhost:8080/api/pub';
+
   constructor(private http: HttpClient) {}
 
-  postMessage(letter: Letter): any{
-    return this.http.post<any>('http://localhost:8080/api/pub/send', letter)
-    .subscribe(response => {
-      return response;
-    });
+  postMessage(letter: Letter): Observable<any>{
+    return this.http.post<any>(`${this.apiBase}/send`, letter);
+  }
+
+  getAuthors(): Observable<any>{
+    return this.http.get<any>(`${this.apiBase}/authors`);
   }
 }

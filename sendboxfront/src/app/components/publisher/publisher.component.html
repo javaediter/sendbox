@@ -1,47 +1,68 @@
 <div class="container">
-    <div class="row m-1 align-items-end">
-        <div class="col-auto">
-            <label for="inputCity" class="form-label">City:</label>
+    <div class="row mt-5">
+        <div class="col">
+            <div class="row m-1">
+                <div class="col-2">
+                    <label for="inputCity" class="form-label">City:</label>
+                </div>
+                <div class="col">
+                    <select class="form-select" (change)="changeCity($event)">
+                    @for(city of cities; track $index){
+                        <option value="{{city}}">{{city}}</option>
+                    }
+                    </select>
+                </div>
+            </div>
+            <div class="row m-1">
+                <div class="col-2">
+                    <label for="inputDate" class="form-label">Date:</label>
+                </div>
+                <div class="col">
+                    <input type="date" class="form-control form-control-sm" id="inputDate" [(ngModel)]="message.date" placeholder="Date" />
+                </div>
+            </div>
+            <div class="row m-1">
+                <div class="col-2">
+                    <label for="inputAuthor" class="form-label">Author:</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control form-control-sm" id="inputAuthor" [(ngModel)]="message.author" placeholder="Author" />
+                </div>
+            </div>
+            <div class="row m-1">
+                <div class="col-2">
+                    <label for="inputMessage" class="form-label">Message:</label>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-control-sm" id="inputMessage" [(ngModel)]="message.message"></textarea>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col">
+                    <button type="button" class="btn btn-primary btn-sm w-100" (click)="sendLetter()">Send</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="p-5">
+                        @if(sended){
+                            <div class="alert alert-success" role="alert">
+                                Send success!
+                            </div>
+                        }@else {
+
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-auto">
-            <select class="form-select" (change)="changeCity($event)">
-            @for(city of cities; track $index){
-                <option value="{{city}}">{{city}}</option>
+    </div>
+    
+    <div class="row m-1">
+        <div class="col">
+            @for(author of authors; track $index){
+                <p class="text-info">{{ author }}</p>
             }
-            </select>
         </div>
-    </div>
-    <div class="row m-1 align-items-end">
-        <div class="col-auto">
-            <label for="inputDate" class="form-label">Date:</label>
-        </div>
-        <div class="col-auto">
-            <input type="date" class="form-control form-control-sm" id="inputDate" [(ngModel)]="message.date" placeholder="Date" />
-        </div>
-    </div>
-    <div class="row m-1 align-items-end">
-        <div class="col-auto">
-            <label for="inputAuthor" class="form-label">Author:</label>
-        </div>
-        <div class="col-auto">
-            <input type="text" class="form-control form-control-sm" id="inputAuthor" [(ngModel)]="message.author" placeholder="Author" />
-        </div>
-    </div>
-    <div class="row m-1 align-items-end">
-        <div class="col-auto">
-            <label for="inputMessage" class="form-label">Message:</label>
-        </div>
-        <div class="col-auto">
-            <textarea class="form-control form-control-sm" id="inputMessage" [(ngModel)]="message.message"></textarea>
-        </div>
-    </div>
-    <button type="button" class="btn btn-primary btn-sm" (click)="sendLetter()">Send</button>
-
-    <div class="p-5">
-        @if(resp$){
-            <p class="text-success">Send success</p>
-        }@else {
-
-        }
     </div>
 </div>
