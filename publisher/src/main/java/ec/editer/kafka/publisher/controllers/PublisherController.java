@@ -4,9 +4,11 @@
  */
 package ec.editer.kafka.publisher.controllers;
 
+import ec.editer.kafka.publisher.dtos.Envelope;
 import ec.editer.kafka.publisher.dtos.Letter;
 import ec.editer.kafka.publisher.services.EventPublisher;
 import ec.editer.kafka.publisher.services.SubcriberService;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -43,5 +46,19 @@ public class PublisherController {
         log.info("----- calling authors -----");
         String[] authors = sub.getAuthors();
         return ResponseEntity.ok(authors);
+    }
+    
+    @GetMapping("/files")
+    public ResponseEntity filesByAuthor(@RequestParam(required = true) String author){
+        log.info("----- calling files by author -----");
+        List<Envelope> envelopes = sub.getFilesByAuthor(author);
+        return ResponseEntity.ok(envelopes);
+    }
+    
+    @GetMapping("/read")
+    public ResponseEntity contentFile(@RequestParam(required = true) String author, @RequestParam(required = true) String fileName){
+        log.info("----- getting content file -----");
+        Letter letter = sub.getContentFile(author, fileName);
+        return ResponseEntity.ok(letter);
     }
 }

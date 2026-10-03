@@ -4,12 +4,17 @@
  */
 package ec.editer.kafka.subscriber.services;
 
+import ec.editer.kafka.subscriber.dtos.Envelope;
 import ec.editer.kafka.subscriber.dtos.Letter;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -69,6 +74,55 @@ public class FileService {
         }
         
         return root.list();
+    }
+    
+    public List<Envelope> getFilesByAuthor(String author){
+        log.info("----- get files by author {} -----", author);
+        
+        File dirAuthor = new File(dirPath + "/" + author);
+        if(!dirAuthor.exists()){
+            dirAuthor.mkdir();
+        }
+        
+        List<Envelope> envelopes = Arrays.asList(dirAuthor.listFiles())
+                .stream()
+                .map((file) -> new Envelope(file.getName(), file.getAbsolutePath()))
+                .toList();
+        
+        return envelopes;
+    }
+    
+    public Letter getContentFile(String author, String fileName){
+        log.info("----- getContentFile -----");
+        String fullPath = dirPath + "/" + author + "/" + fileName;
+        File file = new File(fullPath);
+        Letter letter = new Letter();
+        try(var br = new BufferedReader(new FileReader(file))){
+            String line = null;
+            while((line = br.readLine()) != null){
+                if(line.toLowerCase().contains("date")){
+                    String[] dateSplit = line.split(":");
+                    letter.setDate(dateSplit[1].trim());
+                }
+                
+                if(line.toLowerCase().contains("city")){
+                    String[] citySplit = line.split(":");
+                    letter.setCity(citySplit[1].trim());
+                }
+                
+                if(line.toLowerCase().contains("author")){
+                    String[] authorSplit = line.split(":");
+                    letter.setAuthor(authorSplit[1].trim());
+                }
+                
+                if(!line.toLowerCase().contains("message")){
+                    letter.setMessage(line);
+                }
+            }
+        }catch(IOException ex){
+            log.error("ERROR: ", ex.getMessage());
+        }
+        return letter;
     }
     
 }

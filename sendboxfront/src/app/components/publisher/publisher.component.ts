@@ -2,33 +2,21 @@ import { Component } from '@angular/core';
 import { Letter } from '../../../models/Letter';
 import { FormsModule } from '@angular/forms';
 import { PublisherService } from '../../services/publisher.service';
+import { SubcriberComponent } from '../subcriber/subcriber.component';
 
 @Component({
   selector: 'app-publisher',
-  imports: [FormsModule],
+  imports: [FormsModule, SubcriberComponent],
   templateUrl: './publisher.component.html',
   styleUrl: './publisher.component.css'
 })
 export class PublisherComponent {
   cities = ['---', 'Quito', 'Lima', 'Bogotá', 'New York', 'Tokio'];
-  authors!: Array<string>;
   message!: Letter;
   sended!: any;
 
   constructor(private pubService: PublisherService){
     this.message = new Letter(this.cities[0], '', '', '');
-  }
-
-  ngOnInit(): void{
-    this.pubService.getAuthors()
-    .subscribe({
-      next: (response) => {
-        this.authors = response;
-      },
-      error: (error) => {
-        console.log('ERROR ', error);
-      }
-    });
   }
 
   changeCity(event: Event): void{
@@ -38,6 +26,7 @@ export class PublisherComponent {
 
   sendLetter(){
     console.log('sending...');
+
     this.pubService.postMessage(this.message)
     .subscribe({
       next: (response) => {
@@ -47,6 +36,7 @@ export class PublisherComponent {
         console.log('ERROR ', error);
       }
     });
+
     this.message = new Letter(this.cities[0], '', '', '');
     setTimeout(() => {
       this.sended = false;

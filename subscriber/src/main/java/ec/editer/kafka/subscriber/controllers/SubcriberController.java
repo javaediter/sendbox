@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -30,5 +31,17 @@ public class SubcriberController {
     public ResponseEntity getAllAuthors(){
         log.info("----- getAllAuthors -----");
         return ResponseEntity.ok(fileService.getAuthors());
+    }
+    
+    @GetMapping("/files")
+    public ResponseEntity getFilesByAuthor(@RequestParam(required = true) String author){
+        log.info("----- getFilesByAuthor -----");
+        return ResponseEntity.ok(fileService.getFilesByAuthor(author));
+    }
+    
+    @GetMapping("/read")
+    public ResponseEntity getContentFile(@RequestParam(required = true) String author, @RequestParam(required = true) String fileName){
+        log.info("----- getContentFile -----");
+        return ResponseEntity.ok(fileService.getContentFile(author, fileName));
     }
 }

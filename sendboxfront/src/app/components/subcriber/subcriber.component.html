@@ -1,0 +1,50 @@
+<div class="container">
+    <table class="table">
+        <thead>
+            <th>Nº</th>
+            <th>AUTHOR</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @for (author of authors; track $index) {
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ author }}</td>
+                    <td>
+                        <button class="btn btn-info btn-sm" (click)="getFilesByAuthor(author)">Selec</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr>
+
+    <table class="table">
+        <thead>
+            <th>Nº</th>
+            <th>FILE</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @for (envelope of envelopes; track $index) {
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ envelope.fileName }}</td>
+                    <td class="align-items-center">
+                        <button class="btn btn-secondary btn-sm m-1" (click)="getContentFile(envelope.fileName)">Read</button>
+                        <button class="btn btn-success btn-sm">Download</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr>
+
+    <textarea class="form-control">
+        {{
+            message.message
+        }}
+    </textarea>
+</div>

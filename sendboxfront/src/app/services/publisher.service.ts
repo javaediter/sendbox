@@ -19,4 +19,13 @@ export class PublisherService {
   getAuthors(): Observable<any>{
     return this.http.get<any>(`${this.apiBase}/authors`);
   }
+
+  getFilesByAuthor(author:string): Observable<any>{
+    return this.http.get<any>(`${this.apiBase}/files?author=${author}`);
+  }
+
+  getContentFile(author: string, fileName: string) : Observable<any>{
+    return this.http.get<any>(`${this.apiBase}/read?author=${author}&fileName=${fileName}`);
+  }
+
 }
