@@ -1,50 +1,58 @@
-<div class="container">
-    <table class="table">
-        <thead>
-            <th>Nº</th>
-            <th>AUTHOR</th>
-            <th></th>
-        </thead>
-        <tbody>
-            @for (author of authors; track $index) {
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ author }}</td>
-                    <td>
-                        <button class="btn btn-info btn-sm" (click)="getFilesByAuthor(author)">Selec</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="container mt-5">
 
-    <hr>
+    @if(authors == null){
+        <p class="text-warning">Wating...</p>
+    }@else {
+        <table class="table table-sm table-borderedless table-hover">
+            <thead>
+                <th>Nº</th>
+                <th>AUTHOR</th>
+                <th></th>
+            </thead>
+            <tbody>
+                @for (author of authors; track $index) {
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ author }}</td>
+                        <td>
+                            <button class="btn btn-info btn-sm" style="float: inline-end;" (click)="getFilesByAuthor(author)">Selec</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
-    <table class="table">
-        <thead>
-            <th>Nº</th>
-            <th>FILE</th>
-            <th></th>
-        </thead>
-        <tbody>
-            @for (envelope of envelopes; track $index) {
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ envelope.fileName }}</td>
-                    <td class="align-items-center">
-                        <button class="btn btn-secondary btn-sm m-1" (click)="getContentFile(envelope.fileName)">Read</button>
-                        <button class="btn btn-success btn-sm">Download</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @if(envelopes != null){
+        <table class="table table-sm table-borderedless table-hover mt-5">
+            <thead>
+                <th>Nº</th>
+                <th>FILE</th>
+                <th></th>
+            </thead>
+            <tbody>
+                @for (envelope of envelopes; track $index) {
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ envelope.fileName }}</td>
+                        <td class="align-items-center">
+                            <button class="btn btn-secondary btn-sm m-1" style="float: inline-end;" (click)="getContentFile(envelope.fileName)">Read</button>                           
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
-    <hr>
+    @if(contentFile != null){
+        <textarea class="form-control mt-5 overflow-hidden" rows="15" style="resize: none;" disabled>
+            {{
+                contentFile.content
+            }}
+        </textarea>
+        <div class="mt-1" style="float: inline-end;">
+            <button class="btn btn-success btn-sm" (click)="downloadFileTxt()">Download</button>
+        </div>
+    }
 
-    <textarea class="form-control">
-        {{
-            message.message
-        }}
-    </textarea>
 </div>

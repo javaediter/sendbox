@@ -6,12 +6,11 @@ package ec.editer.kafka.subscriber.services;
 
 import ec.editer.kafka.subscriber.dtos.Envelope;
 import ec.editer.kafka.subscriber.dtos.Letter;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -92,37 +91,17 @@ public class FileService {
         return envelopes;
     }
     
-    public Letter getContentFile(String author, String fileName){
+    public String getContentFile(String author, String fileName){
         log.info("----- getContentFile -----");
         String fullPath = dirPath + "/" + author + "/" + fileName;
         File file = new File(fullPath);
-        Letter letter = new Letter();
-        try(var br = new BufferedReader(new FileReader(file))){
-            String line = null;
-            while((line = br.readLine()) != null){
-                if(line.toLowerCase().contains("date")){
-                    String[] dateSplit = line.split(":");
-                    letter.setDate(dateSplit[1].trim());
-                }
-                
-                if(line.toLowerCase().contains("city")){
-                    String[] citySplit = line.split(":");
-                    letter.setCity(citySplit[1].trim());
-                }
-                
-                if(line.toLowerCase().contains("author")){
-                    String[] authorSplit = line.split(":");
-                    letter.setAuthor(authorSplit[1].trim());
-                }
-                
-                if(!line.toLowerCase().contains("message")){
-                    letter.setMessage(line);
-                }
-            }
+        String content = null;
+        try {
+            content = Files.readString(file.toPath());
         }catch(IOException ex){
             log.error("ERROR: ", ex.getMessage());
         }
-        return letter;
+        return content;
     }
     
 }

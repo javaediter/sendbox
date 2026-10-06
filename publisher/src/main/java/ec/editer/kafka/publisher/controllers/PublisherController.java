@@ -4,6 +4,7 @@
  */
 package ec.editer.kafka.publisher.controllers;
 
+import ec.editer.kafka.publisher.dtos.ContentFile;
 import ec.editer.kafka.publisher.dtos.Envelope;
 import ec.editer.kafka.publisher.dtos.Letter;
 import ec.editer.kafka.publisher.services.EventPublisher;
@@ -58,7 +59,7 @@ public class PublisherController {
     @GetMapping("/read")
     public ResponseEntity contentFile(@RequestParam(required = true) String author, @RequestParam(required = true) String fileName){
         log.info("----- getting content file -----");
-        Letter letter = sub.getContentFile(author, fileName);
-        return ResponseEntity.ok(letter);
+        ContentFile content = sub.getContentFile(author, fileName);
+        return ResponseEntity.ok(content);
     }
 }

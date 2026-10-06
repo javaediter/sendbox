@@ -4,8 +4,8 @@
  */
 package ec.editer.kafka.publisher.services;
 
+import ec.editer.kafka.publisher.dtos.ContentFile;
 import ec.editer.kafka.publisher.dtos.Envelope;
-import ec.editer.kafka.publisher.dtos.Letter;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,11 +39,11 @@ public class SubcriberService {
                 .body(List.class);
     }
     
-    public Letter getContentFile(String author, String fileName){
+    public ContentFile getContentFile(String author, String fileName){
         return restClient
                 .get()
                 .uri("/read?author=" + author + "&fileName=" + fileName)
                 .retrieve()
-                .body(Letter.class);
+                .body(ContentFile.class);
     }
 }

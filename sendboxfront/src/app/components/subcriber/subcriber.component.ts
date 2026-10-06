@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { PublisherService } from '../../services/publisher.service';
 import { Envelope } from '../../../models/Envelope';
-import { Letter } from '../../../models/Letter';
 
 @Component({
   selector: 'app-subcriber',
@@ -12,8 +11,9 @@ import { Letter } from '../../../models/Letter';
 export class SubcriberComponent {
   authors!: Array<string>;
   envelopes!: Array<Envelope>;
-  message!: Letter;
+  contentFile!: any;
   authorSelected!:string;
+  fileNameSelected!:string;
 
   constructor(private pubService: PublisherService){}
 
@@ -31,7 +31,7 @@ export class SubcriberComponent {
 
   getFilesByAuthor(author:string): void {
     this.envelopes = [];
-    this.message = new Letter('', '', '', '');
+    this.contentFile = null;
     this.authorSelected = author;
     this.pubService.getFilesByAuthor(author)
     .subscribe({
@@ -45,15 +45,33 @@ export class SubcriberComponent {
   }
 
   getContentFile(fileName: string): void {
+    this.fileNameSelected = fileName;
     this.pubService.getContentFile(this.authorSelected, fileName)
     .subscribe({
       next: (response) => {
-        this.message = response;
+        this.contentFile = response;
       },
       error: (error) => {
         console.log('ERROR: ', error);
       }
     });
+  }
+
+  downloadFileTxt() : void{
+    const blob = new Blob([
+      this.contentFile.content
+    ], {
+      type: 'text/plain;charset=utf-8'
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const enlace = document.createElement('a');
+    enlace.href = url;
+    enlace.download = this.fileNameSelected;
+    enlace.click();
+
+    window.URL.revokeObjectURL(url);
   }
 
 }

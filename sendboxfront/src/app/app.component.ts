@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { PublisherComponent } from './components/publisher/publisher.component';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [PublisherComponent],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { Letter } from '../../../models/Letter';
 import { FormsModule } from '@angular/forms';
 import { PublisherService } from '../../services/publisher.service';
-import { SubcriberComponent } from '../subcriber/subcriber.component';
 
 @Component({
   selector: 'app-publisher',
-  imports: [FormsModule, SubcriberComponent],
+  imports: [FormsModule],
   templateUrl: './publisher.component.html',
   styleUrl: './publisher.component.css'
 })

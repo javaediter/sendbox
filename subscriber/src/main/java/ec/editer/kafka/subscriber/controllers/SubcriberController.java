@@ -4,6 +4,7 @@
  */
 package ec.editer.kafka.subscriber.controllers;
 
+import ec.editer.kafka.subscriber.dtos.ContentFile;
 import ec.editer.kafka.subscriber.services.FileService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,8 @@ public class SubcriberController {
     @GetMapping("/read")
     public ResponseEntity getContentFile(@RequestParam(required = true) String author, @RequestParam(required = true) String fileName){
         log.info("----- getContentFile -----");
-        return ResponseEntity.ok(fileService.getContentFile(author, fileName));
+        String content = fileService.getContentFile(author, fileName);
+        ContentFile contentFile = new ContentFile(content);
+        return ResponseEntity.ok(contentFile);
     }
 }
