@@ -22,7 +22,7 @@ public class EventConsumer {
     
     final private FileService fileService;
     
-    @KafkaListener(topics = "my-topic", groupId = "my-group")
+    //@KafkaListener(topics = "my-topic", groupId = "my-group")
     public void listen(ConsumerRecord<String, Letter> record){
         log.info("----- listening to kafka -----");
         Letter letter = record.value();
